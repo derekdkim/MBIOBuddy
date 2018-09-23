@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBIOBuddy", "MBIOBuddy\MBIOBuddy.csproj", "{66172FF9-AFFA-46C9-8404-47ED4DC391BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBIOBuddyWeb", "MBIOBuddyWeb\MBIOBuddyWeb.csproj", "{9659645C-7086-4450-8E2C-29F702596D3F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66172FF9-AFFA-46C9-8404-47ED4DC391BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66172FF9-AFFA-46C9-8404-47ED4DC391BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66172FF9-AFFA-46C9-8404-47ED4DC391BB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{66172FF9-AFFA-46C9-8404-47ED4DC391BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66172FF9-AFFA-46C9-8404-47ED4DC391BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66172FF9-AFFA-46C9-8404-47ED4DC391BB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9659645C-7086-4450-8E2C-29F702596D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9659645C-7086-4450-8E2C-29F702596D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9659645C-7086-4450-8E2C-29F702596D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9659645C-7086-4450-8E2C-29F702596D3F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D2434B34-5D28-4ABC-908C-7DC867CB45C0}
+	EndGlobalSection
+EndGlobal
