@@ -8,7 +8,7 @@ This tool is a technological solution to laborious formatting tasks such as chec
 
 #### Development Progress (as of 09/23/18):
 
-**Italicization: **
+**Italicization:**
 
   * Gene italics: Complete
   * Transposon italics: In progress
