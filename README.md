@@ -1,6 +1,6 @@
 # MBIOBuddy
 
-![current GUI version 0.1](https://raw.githubusercontent.com/derekdkim/MBIOBuddy/tree/master/MBIOBuddyWeb/Images/v0.1Demo.png)
+<img src="https://github.com/derekdkim/MBIOBuddy/tree/master/MBIOBuddyWeb/Images/v0.1Demo.png", width="800">
 
 ## Note: This application is current in development.
 
