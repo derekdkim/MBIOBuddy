@@ -1,6 +1,6 @@
 # MBIOBuddy
 
-<img src="https://github.com/derekdkim/MBIOBuddy/tree/master/MBIOBuddyWeb/Images/v0.1Demo.png", width="800">
+![](https://github.com/derekdkim/MBIOBuddy/raw/master/MBIOBuddyWeb/Images/v0.1Demo.png "Version 0.1")
 
 ## Note: This application is current in development.
 
