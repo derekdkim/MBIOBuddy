@@ -14,40 +14,44 @@
 
             // If not using Word 2016, use fallback logic.
             if (!Office.context.requirements.isSetSupported('WordApi', '1.1')) {
-                $("#template-description").text("This sample displays the selected text.");
-                $('#button-text').text("Display!");
-                $('#button-desc').text("Display the selected text");
-                $('#italicize-button-text').text("Italicize!");
-                $('#italicize-button-desc').text("Italicizes a word.");
+                $("#tool-description").text("This sample displays the selected text.");
+                $('#latin-button-text').text("Display!");
+                $('#latin-button-desc').text("Display the selected text");
+                $('#gene-button-text').text("Italicize gene!");
+                $('#gene-button-desc').text("Italicizes a word.");
+                $('#Tn-button-text').text("Italicize Tn!");
+                $('#Tn-button-desc').text("Italicizes all transposon numbers within the document.");
                 
-                $('#highlight-button').click(displaySelectedText);
+                $('#latin-button').click(displaySelectedText);
+                $('#italicize-button').click(displaySelectedText);
+                $('#Tn-button').click(displaySelectedText);
                 return;
             }
 
-            $("#template-description").text("Please make use of the tools below to ease the process of manuscript writing.");
+            $("#tool-description").text("Please make use of the tools below to ease the process of manuscript writing. I hope you find it useful.");
 
             // Text and description of the highlight button.
 
-            $('#button-text').text("Highlight!");
-            $('#button-desc').text("Highlights the longest word.");
+            $('#latin-button-text').text("Italicize Latin!");
+            $('#latin-button-desc').text("Italicize common Latin abbreviations.");
 
-            // Text and description of the italicize button.
+            // Text and description of the italicize genes button.
 
-            $('#italicize-button-text').text("Italicize Genes!");
-            $('#italicize-button-desc').text("Italicizes all genes within the document.");
+            $('#gene-button-text').text("Italicize Genes!");
+            $('#gene-button-desc').text("Italicizes all genes within the document.");
 
-            // Text and description of the italicize button.
+            // Text and description of the italicize transposons button.
 
-            $('#test-button-text').text("test");
-            $('#test-button-desc').text("testing.");
+            $('#Tn-button-text').text("Italicize Tn!");
+            $('#Tn-button-desc').text("Italicizes all transposon numbers within the document.");
 
             // Creates sample text to experiment with (currently disabled).
             //loadSampleData();
 
             // Add a click event handler for the highlight button.
-            $('#highlight-button').click(hightlightLongestWord);
-            $('#italicize-button').click(italicizeGenes);
-            $('#test-button').click(testFunction);
+            $('#latin-button').click(italicizeLatin);
+            $('#gene-button').click(italicizeGenes);
+            $('#Tn-button').click(italicizeTn);
 
         });
     };
@@ -62,7 +66,7 @@
     //        body.clear();
     //        // Queue a command to insert text into the end of the Word document body.
     //        body.insertText(
-    //            "rhaT rhaK rhaS RhaK rpsD supE Mesopotamia Rhizobium United States of America",
+    //            "rhaT rhaK rhaS RhaK rpsD38 supE rhaSTPQ RhaSTPQ rhaDI RhaDI Mesopotamia Rhizobium United States of America Tn3 Tn5 Tn7 Tn10 10Tn10 10",
     //            Word.InsertLocation.end);
 
     //        // Synchronize the document state by executing the queued commands, and return a promise to indicate task completion.
@@ -70,43 +74,6 @@
     //    })
     //    .catch(errorHandler);
     //}
-
-    function hightlightLongestWord() {
-        Word.run(function (context) {
-            // Queue a command to get the current selection and then
-            // create a proxy range object with the results.
-            var range = context.document.getSelection();
-            
-            // This variable will keep the search results for the longest word.
-            var searchResults;
-            
-            // Queue a command to load the range selection result.
-            context.load(range, 'text');
-
-            // Synchronize the document state by executing the queued commands
-            // and return a promise to indicate task completion.
-            return context.sync()
-                .then(function () {
-                    // Get the longest word from the selection.
-                    var words = range.text.split(/\s+/);
-                    var longestWord = words.reduce(function (word1, word2) { return word1.length > word2.length ? word1 : word2; });
-
-                    // Queue a search command.
-                    searchResults = range.search(longestWord, { matchCase: true, matchWholeWord: true });
-
-                    // Queue a commmand to load the font property of the results.
-                    context.load(searchResults, 'font');
-                })
-                .then(context.sync)
-                .then(function () {
-                    // Queue a command to highlight the search results.
-                    searchResults.items[0].font.highlightColor = '#FFFF00'; // Yellow
-                    searchResults.items[0].font.bold = true;
-                })
-                .then(context.sync);
-        })
-        .catch(errorHandler);
-    } 
 
     function displaySelectedText() {
         Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
@@ -119,24 +86,80 @@
             });
     }
 
+    function italicize(search) {
+        Word.run(function (context) {
+            OfficeExtension.config.extendedErrorLogging = true;
+
+            if (search.items.length > 0) {
+                for (var index = 0; index < search.items.length; index++) {
+                    search.items[index].font.italic = true;
+                }
+            }
+            return context.sync();
+        })
+        .catch(errorHandler);
+    }
+
+    function italicizeLatin() {
+        Word.run(function (context) {
+            OfficeExtension.config.extendedErrorLogging = true;
+
+            // Search document for the most common Latin terms.
+            var deNovo = context.document.body.search('de novo', { matchWildCards: true });
+            var etAl = context.document.body.search('et al.', { matchWildCards: true });
+            var inSitu = context.document.body.search('in situ', { matchWildCards: true });
+            var inTrans = context.document.body.search('in trans', { matchWildCards: true });
+            var inVitro = context.document.body.search('in vitro', { matchWildCards: true });
+            var inVivo = context.document.body.search('in vivo', { matchWildCards: true });
+
+            // Load the search results.
+            context.load(deNovo, 'font');
+            context.load(etAl, 'font');
+            context.load(inSitu, 'font');
+            context.load(inTrans, 'font');
+            context.load(inVitro, 'font');
+            context.load(inVivo, 'font');
+
+            return context.sync().then(function () {
+                var totalAmount = deNovo.items.length + etAl.items.length + inSitu.items.length + inTrans.items.length + inVitro.items.length + inVivo.items.length;
+                console.log("Latin expressions count: " + totalAmount);
+                showNotification(totalAmount + " Latin terms were italicized.");
+
+                // Italicize every result.
+                italicize(deNovo);
+                italicize(etAl);
+                italicize(inSitu);
+                italicize(inTrans);
+                italicize(inVitro);
+                italicize(inVivo);
+
+                return context.sync();
+            });
+        })
+        .catch(errorHandler);
+    }
+
     function italicizeGenes() {
         Word.run(function (context) {
             OfficeExtension.config.extendedErrorLogging = true;
 
             // Search document for a word with lowercase, lowercase, lowercase, Uppercase.
-            var searchResults = context.document.body.search('<[a-z][a-z][a-z][A-Z]>', {matchWildCards: true});
+            var geneSearch = context.document.body.search('<[a-z][a-z][a-z][A-Z]', { matchWildCards: true });
+            var clusterSearch = context.document.body.search('<[a-z][a-z][a-z][A-Z]@>', { matchWildCards: true });
 
             // Load the search results.
-            context.load(searchResults, 'font');
+            context.load(geneSearch, 'font');
+            context.load(clusterSearch, 'font');
 
             return context.sync().then(function () {
-                console.log("Gene count: " + searchResults.items.length);
-                showNotification(searchResults.items.length + " gene names were italicized.");
+                console.log("Gene count: " + geneSearch.items.length);
+                console.log("Gene cluster count: " + clusterSearch.items.length);
+                showNotification(geneSearch.items.length + " gene names were italicized.");
 
                 // Italicize each found gene.
-                for (var i = 0; i < searchResults.items.length; i++) {
-                    searchResults.items[i].font.italic = true;
-                }
+                italicize(geneSearch);
+                italicize(clusterSearch);
+
                 // Synchronize the document state.
                 return context.sync();
             });
@@ -144,40 +167,60 @@
         .catch(errorHandler);
     }
 
-    function testFunction() {
-        // Run a batch operation against the Word object model.
+    // Currently unoptimized. Hacked together a method that technically works, but is very memory inefficient. Thankfully, these are Word documents.
+    function italicizeTn() {
         Word.run(function (context) {
+            OfficeExtension.config.extendedErrorLogging = true;
 
-            // Queue a command to search the document with a wildcard
-            // for any string of characters that starts with 'to' and ends with 'n'.
-            var searchResults = context.document.body.search('to*n', { matchWildCards: true });
+            // Search document for a word with a word that begins with Tn and has number (not Tn10).
+            var TnSearch = context.document.body.search('<Tn[0-9]', { matchWildCards: true });
 
-            // Queue a command to load the search results and get the font property values.
-            context.load(searchResults, 'font');
+            // Searches for Tn to un-do the italicization on the word.
+            var Tns = context.document.body.search('Tn', { matchPrefix: true });
 
-            // Synchronize the document state by executing the queued commands, 
-            // and return a promise to indicate task completion.
+            // Searches for Tn10. I couldn't find any other way to do it.
+            var Tn10 = context.document.body.search('Tn10', { matchPrefix: true });
+
+            // Load the search results.
+            context.load(TnSearch, 'font');
+            context.load(Tns, 'font');
+            context.load(Tn10, 'font');
+
             return context.sync().then(function () {
-                console.log('Found count: ' + searchResults.items.length);
+                console.log("Transposon count: " + TnSearch.items.length);
+                console.log("Tn10 count: " + Tn10.items.length);
+                showNotification(TnSearch.items.length + " transposon numbers were italicized.");
 
-                // Queue a set of commands to change the font for each found item.
-                for (var i = 0; i < searchResults.items.length; i++) {
-                    searchResults.items[i].font.color = 'purple';
-                    searchResults.items[i].font.highlightColor = 'pink';
-                    searchResults.items[i].font.bold = true;
+                // Italicize the third character of each transposon. This works because Tn5 
+                for (var i = 0; i < TnSearch.items.length; i++) {
+                    
+                    // If the Tn number is over 9 (ie. Tn10), italicize both numbers. Currently not working.
+                    //if (isNumeric(searchResults.items[i][3])) {
+                    //    searchResults.items[i].font.italic = true;
+                    
+                    TnSearch.items[i].font.italic = true;
+                    Tns.items[i].font.italic = false;
+                           
                 }
 
-                // Synchronize the document state by executing the queued commands, 
-                // and return a promise to indicate task completion.
+                if (Tn10.items.length > 0) {
+                    for (var j = 0; j < TnSearch.items.length; j++) {
+                        if (j < Tn10.items.length) {
+                            Tn10.items[j].font.italic = true;
+                        }
+                        Tns.items[j].font.italic = false;
+                    }
+                }
+                // Synchronize the document state.
                 return context.sync();
             });
         })
-            .catch(function (error) {
-                console.log('Error: ' + JSON.stringify(error));
-                if (error instanceof OfficeExtension.Error) {
-                    console.log('Debug info: ' + JSON.stringify(error.debugInfo));
-                }
-            });
+            .catch(errorHandler);
+    }
+
+    // An accessory function to determine whether a character is numeric. Similar to JQuery's isNumeric() but in pure JS.
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
     //$$(Helper function for treating errors, $loc_script_taskpane_home_js_comment34$)$$

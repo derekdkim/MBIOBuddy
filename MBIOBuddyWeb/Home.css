@@ -13,16 +13,21 @@ body {
     bottom: 0;
     height: 40px;
     width: 100%;
+    text-align: center;
 }
 
 .padding {
     padding: 15px;
 }
 
+.ms-font-xxl ms-fontColor-neutralSecondary ms-fontWeight-semilight {
+    text-align: center;
+}
+
 #notification-popup.ms-MessageBanner {
     position: absolute;
     left: 0px;
-    bottom: 0px;
+    top: 20%;
     text-align: left;
     height: inherit;
     min-width: inherit;
@@ -32,4 +37,33 @@ body {
     margin: 0;
     padding: 18px 15px;
     min-width: inherit;
+}
+
+.feature-button {
+    background-color: rgb(0, 112, 192);
+    border: none;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 14px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.button-label {
+    color: white;
+    font-size: 1.5em;
+
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.feature-button:hover {
+    background-color: #008CBA;
+    color: black;
+    border: 2px solid rgb(0, 112, 192);
+}
+
+.button-label:hover {
+    color: black;
 }
