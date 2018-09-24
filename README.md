@@ -17,11 +17,11 @@ This tool provides a technological solution to laborious formatting tasks such a
   * Common Latin term italics: Complete
   * Organism italics: Planned
   
-** Design: **  
+**Design:**  
 
   * GUI Design: In Progress
   
-** Other Features: **
+**Other Features:**
 
   * Sequence reverse complement: Planned
   * Reference template insertions: Planned  
